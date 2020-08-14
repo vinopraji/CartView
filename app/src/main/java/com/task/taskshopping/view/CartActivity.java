@@ -128,8 +128,7 @@ public class CartActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             for (Productdb i : selected) {
-                Log.e("name", String.valueOf(i.getId()));
-                Log.e("name", String.valueOf(i.getCount()));
+
                /* Productdb c = new Productdb();
 
                 c.setName();
@@ -142,7 +141,6 @@ public class CartActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            Toast.makeText(CartActivity.this, "Order Placed Successfully", Toast.LENGTH_SHORT).show();
             // CartActivity.this.finish();
         }
     }
@@ -170,7 +168,7 @@ public class CartActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull final ItemsAdapter.ViewHolder holder, final int position) {
             final Productdb itm = item.get(position);
             holder.name.setText(itm.getName());
-            holder.price.setText(String.valueOf(itm.getPrice()));
+            holder.price.setText(itm.getPrice());
             holder.quantity.setText(String.valueOf(itm.getDiscription()));
             holder.count.setText(String.valueOf(itm.getCount()));
 
@@ -227,7 +225,6 @@ public class CartActivity extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-        Log.e("check","check");
         new UpdateCartItem().execute();
         finish();
     }
