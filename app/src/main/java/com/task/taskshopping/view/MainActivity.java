@@ -152,6 +152,15 @@ public class MainActivity extends AppCompatActivity {
             holder.count.setText(String.valueOf(itm.getCount()));
 
 
+            if(itm.getCount()==0){
+
+                holder.add.setVisibility(View.VISIBLE);
+            }else {
+                holder.add.setVisibility(View.GONE);
+                holder.linearLayout.setVisibility(View.VISIBLE);
+            }
+
+
             holder.add.setOnClickListener((v) -> {
                 holder.add.setVisibility(View.GONE);
                 holder.linearLayout.setVisibility(View.VISIBLE);
@@ -227,6 +236,25 @@ public class MainActivity extends AppCompatActivity {
         productViewModel.deleteAll();
 
     }
+    @Override
+    public void onResume(){
+        super.onResume();
+        productViewModel.getAllProduct().observe(this, new Observer<List<Productdb>>() {
+            @Override
+            public void onChanged(List<Productdb> notes) {
+                //) loading.show();
+                Log.e("notes1", String.valueOf(notes));
+                ItemsAdapter adapter = new ItemsAdapter(notes, getApplicationContext());
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                mRecyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+
+            }
+        });
+
+
+    }
+
 
     @Override
     public boolean onSupportNavigateUp() {

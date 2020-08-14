@@ -19,8 +19,10 @@ public interface ProductDao {
     @Query("SELECT * FROM Productdb WHERE id=:noteId")
     List<Productdb> getNote(String noteId);
 
-    @Update
-    void update(Productdb pro);
+    /*@Update
+    void update(Productdb pro);*/
+    @Query("UPDATE Productdb SET count = :count WHERE id = :tid")
+    int update(int count, int tid);
 
     @Query("DELETE FROM Productdb")
     int delete();

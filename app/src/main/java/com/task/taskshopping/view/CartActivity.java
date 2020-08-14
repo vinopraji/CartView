@@ -57,6 +57,7 @@ public class CartActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.cart_list);
         mPriceText = findViewById(R.id.price);
         mCartDb = Room.databaseBuilder(getApplicationContext(), CartDB.class, "sample-db").build();
+        productRoomDatabase = Room.databaseBuilder(getApplicationContext(), ProductRoomDatabase.class, "sample").build();
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         ItemsAdapter adapter = new ItemsAdapter(items, getApplicationContext());
@@ -86,7 +87,7 @@ public class CartActivity extends AppCompatActivity {
                     builder.setMessage("Are you sure you want to checkout?")
                             .setPositiveButton(android.R.string.yes, (dialog, which) -> {
                                  new InsertCartItem().execute();
-                               // new UpdateCartItem().execute();
+                               //
                             })
                             .setNegativeButton(android.R.string.no, (dialog, which) -> {
                                 dialog.cancel();
@@ -127,14 +128,13 @@ public class CartActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             for (Productdb i : selected) {
+                Log.e("name", String.valueOf(i.getId()));
+                Log.e("name", String.valueOf(i.getCount()));
+               /* Productdb c = new Productdb();
 
-                Productdb c = new Productdb();
-                Log.e("name", i.getName());
-                c.setName(i.getName());
-                c.setDiscription(i.getDiscription());
-                c.setPrice(i.getPrice());
-                c.setCount(i.getCount());
-                productRoomDatabase.noteDao().insert(c);
+                c.setName();
+                c.setCount(i.getCount());*/
+                productRoomDatabase.noteDao().update(i.getId(),i.getCount());
             }
             return null;
         }
@@ -155,7 +155,7 @@ public class CartActivity extends AppCompatActivity {
             item = new ArrayList<>();
             this.item = itemList;
             this.context = context;
-            selected = new ArrayList<>();
+          //  selected = new ArrayList<>();
         }
 
         @NonNull
@@ -225,7 +225,12 @@ public class CartActivity extends AppCompatActivity {
             }
         }
     }
-
+    @Override
+    public void onBackPressed() {
+        Log.e("check","check");
+        new UpdateCartItem().execute();
+        finish();
+    }
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
